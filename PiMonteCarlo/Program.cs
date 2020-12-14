@@ -1,19 +1,38 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PiMonteCarlo
 {
     class Program
     {
+        private static readonly int NumberOfSteps = 100_000_000;
+        private static readonly int NumberOfCores = Environment.ProcessorCount;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Time(SerialPi, nameof(SerialPi));
+            Time(ParallelForPi, nameof(ParallelForPi));
+            Time(ParallelTasksPi, nameof(ParallelTasksPi));
+        }
+        
+        static void Time(
+            Func<double> estimatePi,
+            string function)
+        {
+            var sw = Stopwatch.StartNew();
+            var pi = estimatePi();
+            Console.WriteLine($"{function.PadRight(22)} | {sw.Elapsed} | {pi}");
+        }
 
-            long numSteps = 10000000;
-            long startTime = DateTime.Now.Millisecond;
-
+        static double SerialPi()
+        {
             long count = 0;
             var random = new Random();
-            for (int i = 0; i < numSteps; ++i)
+            for (int i = 0; i < NumberOfSteps; ++i)
             {
                 double x = random.NextDouble();
                 double y = random.NextDouble();
@@ -21,13 +40,64 @@ namespace PiMonteCarlo
                 if (z <= 1.0) count++;
             }
 
-            double pi = (double) count / numSteps * 4;
+            double pi = (double) count / NumberOfSteps * 4;
+            
+            return pi;
+        }
+        
+        static double ParallelForPi()
+        {
+            long count = 0;
+            Parallel.For(0, NumberOfCores, new ParallelOptions{ MaxDegreeOfParallelism = NumberOfCores }, i =>
+            {
+                int localCounterInside = 0;
+                Random random = new Random(); 
 
-            long endTime = DateTime.Now.Millisecond;
-            Console.WriteLine($"sequential program results with {numSteps} \n");
-            Console.WriteLine($"computed pi = {pi} \n");
-            Console.WriteLine($"difference between estimated pi and Math.PI = {Math.Abs(pi - Math.PI)} \n");
-            Console.WriteLine($"time to compute = {(double)(endTime - startTime) / 1000} \n");
+                for (int j = 0; j < NumberOfSteps / NumberOfCores; ++j)
+                {
+                    double x = random.NextDouble();
+                    double y = random.NextDouble();
+                    double z = Math.Pow(x, 2) + Math.Pow(y, 2);
+                    if (z <= 1.0) localCounterInside++;                                                      
+                }
+
+                Interlocked.Add(ref count, localCounterInside); 
+            }); 
+
+            double pi = 4 * (count / (double)NumberOfSteps);
+
+            return pi;
+        }
+
+        static double ParallelTasksPi()
+        {
+            int[] localCounters = new int[NumberOfCores];
+            Task[] tasks = new Task[NumberOfCores];
+
+            for (int i = 0; i < NumberOfCores; i++)
+            {
+                int procIndex = i; //closure capture 
+                tasks[procIndex] = Task.Factory.StartNew(() =>
+                {
+                    int localCounterInside = 0;
+                    Random random = new Random();
+
+                    for (int j = 0; j < NumberOfSteps / NumberOfCores; ++j)
+                    {
+                        double x = random.NextDouble();
+                        double y = random.NextDouble();
+                        double z = Math.Pow(x, 2) + Math.Pow(y, 2);
+                        if (z <= 1.0) localCounterInside++;    
+                    } 
+                    localCounters[procIndex] = localCounterInside;
+                });               
+            }
+            Task.WaitAll(tasks);
+            long count = localCounters.Sum();
+            
+            double pi = 4 * (count / (double)NumberOfSteps);
+            
+            return pi;
         }
     }
 }
