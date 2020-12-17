@@ -19,9 +19,7 @@ namespace PiMonteCarlo
             Time(ParallelTasksPi, nameof(ParallelTasksPi));
         }
         
-        static void Time(
-            Func<double> estimatePi,
-            string function)
+        static void Time(Func<double> estimatePi, string function)
         {
             var sw = Stopwatch.StartNew();
             var pi = estimatePi();

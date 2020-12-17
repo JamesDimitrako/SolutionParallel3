@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiMonteCarlo", "PiMonteCarlo\PiMonteCarlo.csproj", "{A17C9A40-DA8C-4281-9D4D-5EC1D2D3634E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountSortArgsTime", "CountSortArgsTime\CountSortArgsTime.csproj", "{1498300A-ABFB-4782-9494-B833DBDDD7A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Histogram", "Histogram\Histogram.csproj", "{504351D3-C392-4185-8186-06B67EB87CCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{A17C9A40-DA8C-4281-9D4D-5EC1D2D3634E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A17C9A40-DA8C-4281-9D4D-5EC1D2D3634E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A17C9A40-DA8C-4281-9D4D-5EC1D2D3634E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1498300A-ABFB-4782-9494-B833DBDDD7A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1498300A-ABFB-4782-9494-B833DBDDD7A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1498300A-ABFB-4782-9494-B833DBDDD7A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1498300A-ABFB-4782-9494-B833DBDDD7A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{504351D3-C392-4185-8186-06B67EB87CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504351D3-C392-4185-8186-06B67EB87CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504351D3-C392-4185-8186-06B67EB87CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{504351D3-C392-4185-8186-06B67EB87CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
