@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Histogram
 {
@@ -12,6 +14,7 @@ namespace Histogram
         {
             Console.WriteLine("Hello World!");
             Time(SerialHistogram, nameof(SerialHistogram));
+            Time(ParallelHistogram, nameof(ParallelHistogram));
         }
 
         static void SerialHistogram()
@@ -52,10 +55,16 @@ namespace Histogram
             for (int i = 0; i < alphabetSize; i++) { 
                 histogram[i] = 0; 
             }
-        
-            for (int i = 0; i < n; i++) {
-                histogram[text[i]] ++;
-            }
+
+/*            Parallel.For<int>(0, alphabetSize, () => 0, (j, loop, local) =>
+            {
+                local = text[j];
+                return local;
+            }, x => Interlocked.Add(ref histogram[x], x));
+  */      
+           // for (int i = 0; i < n; i++) {
+           //     histogram[text[i]] ++;
+           // }
 
             for (int i = 0; i < alphabetSize; i++) {
                 Console.WriteLine(histogram[i]);

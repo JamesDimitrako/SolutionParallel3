@@ -19,6 +19,7 @@ namespace PiMonteCarlo
             Time(ParallelTasksPi, nameof(ParallelTasksPi));
         }
         
+        // using a delegate(pointer function). Elegant solution to measure time
         static void Time(Func<double> estimatePi, string function)
         {
             var sw = Stopwatch.StartNew();
@@ -43,6 +44,7 @@ namespace PiMonteCarlo
             return pi;
         }
         
+        // With Parallel for.
         static double ParallelForPi()
         {
             long count = 0;
@@ -58,7 +60,8 @@ namespace PiMonteCarlo
                     double z = Math.Pow(x, 2) + Math.Pow(y, 2);
                     if (z <= 1.0) localCounterInside++;                                                      
                 }
-
+                
+                // Adds two 64-bit integers and replaces the first integer with the sum, as an atomic operation.
                 Interlocked.Add(ref count, localCounterInside); 
             }); 
 
@@ -66,7 +69,8 @@ namespace PiMonteCarlo
 
             return pi;
         }
-
+        
+        // With tasks
         static double ParallelTasksPi()
         {
             int[] localCounters = new int[NumberOfCores];
