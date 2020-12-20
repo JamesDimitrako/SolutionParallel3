@@ -10,6 +10,14 @@ namespace PiMonteCarlo
     class Program
     {
         private static readonly int NumberOfSteps = 100_000_000;
+        /*
+         * Wisdom in parallel circles often suggests that a good parallel implementation will use one thread per core. 
+         * After all, with one thread per core, we can keep all cores fully utilized. Any more threads, and the operating system will
+         * need to context switch between them, resulting in wasted overhead spent on such activities; any fewer threads,
+         * and there’s no chance we can take advantage of all that the machine has to offer, as at least one core will be
+         * guaranteed to go unutilized.
+         * Book Patterns of Parallel Programming C#, page 5
+         */
         private static readonly int NumberOfCores = Environment.ProcessorCount;
 
         static void Main(string[] args)
@@ -20,6 +28,8 @@ namespace PiMonteCarlo
         }
         
         // using a delegate(pointer function). Elegant solution to measure time
+        // Delegates: Function: Pointer function that returns something(not Void)
+        // Delegates: Action: Pointer function that didn't return anything(Void)
         static void Time(Func<double> estimatePi, string function)
         {
             var sw = Stopwatch.StartNew();
@@ -43,7 +53,7 @@ namespace PiMonteCarlo
             
             return pi;
         }
-        
+
         // With Parallel for.
         static double ParallelForPi()
         {

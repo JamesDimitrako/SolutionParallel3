@@ -15,7 +15,8 @@ namespace CountSortArgsTime
             Time(()=>CountSortArgsTime(10000), nameof(CountSortArgsTime));
         }
         
-        // TODO: Explain diff between Action and Func
+        // Delegates: Function: Pointer function that returns something(not Void)
+        // Delegates: Action: Pointer function that didn't return anything(Void)
         static void Time(Action countSort, string function)
         {
             var sw = Stopwatch.StartNew();

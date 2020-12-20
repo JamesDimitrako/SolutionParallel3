@@ -46,27 +46,25 @@ namespace Histogram
             String fileString = RandomString(100000000);//, StandardCharsets.UTF_8);
             char[] text = new char[fileString.Length]; 
             int n = fileString.Length;
-            for (int i = 0; i < n; i++) { 
+            for (int i = 0; i < n; i++) 
+            { 
                 text[i] = fileString[i]; 
             } 
  
             int alphabetSize = 256;
             int[] histogram = new int[alphabetSize]; 
-            for (int i = 0; i < alphabetSize; i++) { 
+            for (int i = 0; i < alphabetSize; i++) 
+            { 
                 histogram[i] = 0; 
             }
+     
+            for (int i = 0; i < n; i++) 
+            { 
+                histogram[text[i]] ++;
+            }
 
-/*            Parallel.For<int>(0, alphabetSize, () => 0, (j, loop, local) =>
+            for (int i = 0; i < alphabetSize; i++) 
             {
-                local = text[j];
-                return local;
-            }, x => Interlocked.Add(ref histogram[x], x));
-  */      
-           // for (int i = 0; i < n; i++) {
-           //     histogram[text[i]] ++;
-           // }
-
-            for (int i = 0; i < alphabetSize; i++) {
                 Console.WriteLine(histogram[i]);
             }
         }
@@ -77,7 +75,8 @@ namespace Histogram
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
         
-        // TODO: Explain diff between Action and Func
+        // Delegates: Function: Pointer function that returns something(not Void)
+        // Delegates: Action: Pointer function that didn't return anything(Void)
         static void Time(Action function, string functionName)
         {
             var sw = Stopwatch.StartNew();
