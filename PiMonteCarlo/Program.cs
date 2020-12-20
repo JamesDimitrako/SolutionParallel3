@@ -16,7 +16,7 @@ namespace PiMonteCarlo
          * need to context switch between them, resulting in wasted overhead spent on such activities; any fewer threads,
          * and there’s no chance we can take advantage of all that the machine has to offer, as at least one core will be
          * guaranteed to go unutilized.
-         * Book Patterns of Parallel Programming C#, page 5
+         * Book: Patterns of Parallel Programming C#, page 5
          */
         private static readonly int NumberOfCores = Environment.ProcessorCount;
 
@@ -27,7 +27,7 @@ namespace PiMonteCarlo
             Time(ParallelTasksPi, nameof(ParallelTasksPi));
         }
         
-        // using a delegate(pointer function). Elegant solution to measure time
+        // Using a delegate(pointer function). Elegant solution to measure time
         // Delegates: Function: Pointer function that returns something(not Void)
         // Delegates: Action: Pointer function that didn't return anything(Void)
         static void Time(Func<double> estimatePi, string function)
@@ -80,7 +80,7 @@ namespace PiMonteCarlo
             return pi;
         }
         
-        // With tasks
+        // With Tasks
         static double ParallelTasksPi()
         {
             int[] localCounters = new int[NumberOfCores];
