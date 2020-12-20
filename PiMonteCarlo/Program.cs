@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,7 +36,7 @@ namespace PiMonteCarlo
             Console.WriteLine($"{function.PadRight(22)} | {sw.Elapsed} | {pi}");
         }
 
-        static double SerialPi()
+        private static double SerialPi()
         {
             long count = 0;
             var random = new Random();
@@ -55,7 +54,7 @@ namespace PiMonteCarlo
         }
 
         // With Parallel for.
-        static double ParallelForPi()
+        private static double ParallelForPi()
         {
             long count = 0;
             Parallel.For(0, NumberOfCores, new ParallelOptions{ MaxDegreeOfParallelism = NumberOfCores }, i =>
@@ -81,7 +80,7 @@ namespace PiMonteCarlo
         }
         
         // With Tasks
-        static double ParallelTasksPi()
+        private static double ParallelTasksPi()
         {
             int[] localCounters = new int[NumberOfCores];
             Task[] tasks = new Task[NumberOfCores];
